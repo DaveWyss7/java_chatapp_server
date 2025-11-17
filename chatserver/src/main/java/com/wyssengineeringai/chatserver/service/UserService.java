@@ -47,7 +47,6 @@ public class UserService {
                 .onErrorMap(e -> new RuntimeException("Error creating user: " + e.getMessage(), e));
     }
 
-
     public Mono<User> getUserById(Integer id) {
         if(id == null || id <= 0) {
             return Mono.error( new IllegalArgumentException("Invalid user ID"));
