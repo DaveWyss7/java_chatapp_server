@@ -5,8 +5,10 @@ import com.wyssengineeringai.chatserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,6 +49,41 @@ public class UserService {
                 .onErrorMap(e -> new RuntimeException("Error creating user: " + e.getMessage(), e));
     }
 
+    public Mono<User> updateUser(Integer id, User user) {
+        if(id == null || id <= 0) {
+            return Mono.error(new IllegalArgumentException("Invalid user ID"));
+        }
+        if(user == null) {
+            return Mono.error(new IllegalArgumentException("User cannot be null"));
+        }
+        validateUser(user);
+
+        return userRepository.findById(id)
+                .switchIfEmpty(Mono.error(new RuntimeException("User not found")))
+                .flatMap(existingUser -> {
+                    existingUser.setUsername(user.getUsername());
+                    existingUser.setFirstname(user.getFirstname());
+                    existingUser.setLastname(user.getLastname());
+                    existingUser.setEmail(user.getEmail());
+                    if(!user.getPasswordHash().isEmpty()) {
+                        String hashedPassword = passwordEncoder.encode(user.getPasswordHash());
+                        existingUser.setPasswordHash(hashedPassword);
+                    }
+                    return userRepository.save(existingUser);
+                })
+                .onErrorMap(e -> new RuntimeException("Error updating user: " + e.getMessage(), e));
+    }
+
+    public Mono<User> deleteUser(Integer id) {
+        if(id == null || id <= 0) {
+            return Mono.error(new IllegalArgumentException("Invalid user ID"));
+        }
+        return userRepository.findById(id)
+                .switchIfEmpty(Mono.error(new RuntimeException("User not found")))
+                .flatMap(user -> userRepository.delete(user).thenReturn(user))
+                .onErrorMap(e -> new RuntimeException("Error deleting user: " + e.getMessage(), e));
+    }
+
     public Mono<User> getUserById(Integer id) {
         if(id == null || id <= 0) {
             return Mono.error( new IllegalArgumentException("Invalid user ID"));
@@ -63,6 +100,29 @@ public class UserService {
         return userRepository.findByUsername(username)
                 .switchIfEmpty(Mono.error(new RuntimeException("User not found")))
                 .onErrorMap(e -> new RuntimeException("Error retrieving user: " + e.getMessage(), e));
+    }
+
+    public Mono<User> userNameExists(String username) {
+        if(username == null) {
+            return Mono.error(new IllegalArgumentException("Username cannot be null"));
+        }
+        return userRepository.findByUsername(username)
+                .onErrorMap(e -> new RuntimeException("Error checking username: " + e.getMessage(), e));
+    }
+
+    public Mono<User> emailExists(String email) {
+        if(email == null) {
+            return Mono.error(new IllegalArgumentException("Email cannot be null"));
+        }
+        return userRepository.findByEmail(email)
+                .onErrorMap(e -> new RuntimeException("Error checking email: " + e.getMessage(), e));
+    }
+
+    public Flux<List<User>> getAllUsers() {
+        return userRepository.findAll()
+                .collectList()
+                .flatMapMany(Mono::just)
+                .onErrorMap(e -> new RuntimeException("Error retrieving users: " + e.getMessage(), e));
     }
 
     private void validateUser(User user) {
