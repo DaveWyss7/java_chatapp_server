@@ -1,35 +1,27 @@
 package com.wyssengineeringai.chatserver.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.relational.core.mapping.Column;
 
-@Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true, nullable = false, length = 50)
-    @NotBlank(message = "Username is required")
-    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
+    @Column("username")
     private String username;
 
-    @Column(length = 255)
+    @Column("firstname")
     private String firstname;
 
-    @Column(length = 255)
+    @Column("lastname")
     private String lastname;
 
-    @Column(unique = true, nullable = false, length = 100)
-    @NotBlank(message = "Email is required")
-    @Size(max = 100, message = "Email must be at most 100 characters")
+    @Column("email")
     private String email;
 
-    @Column(nullable = false, length = 255)
-    @NotBlank(message = "Password is required")
-    @Size(min = 6, message = "Password must be at least 6 characters long")
+    @Column("password_hash")
     private String passwordHash;
 
     // Constructors
