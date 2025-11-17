@@ -1,7 +1,10 @@
 package com.wyssengineeringai.chatserver.service;
 
 import com.wyssengineeringai.chatserver.entity.User;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 public interface UserService {
     Mono<User> createUser(User user);
@@ -11,5 +14,5 @@ public interface UserService {
     Mono<User> getUserByUsername(String username);
     Mono<User> userNameExists(String username);
     Mono<User> emailExists(String email);
-    Mono<User> getAllUsers();
+    Flux<List<User>> getAllUsers();
 }

@@ -1,50 +1,25 @@
 package com.wyssengineeringai.chatserver.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+
 import java.text.DateFormat;
 import java.time.Instant;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthResponseDto {
+    @NotBlank
     private String token;
+    @NotBlank
     private String username;
+    @Id
+    @NotBlank
     private Integer userId;
+    @NotBlank
     private Instant expiration;
-
-    public AuthResponseDto(String token, String username, Integer userId, Instant expiration) {
-        this.token = token;
-        this.username = username;
-        this.userId = userId;
-        this.expiration = expiration;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Instant getExpiration() {
-        return expiration;
-    }
-
-    public void setExpiration(Instant expiration) {
-        this.expiration = expiration;
-    }
 }
