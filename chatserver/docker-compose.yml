@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: chatserver-db
+    environment:
+      POSTGRES_DB: chatserver
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - chatserver-network
+
+  app:
+    build: .
+    container_name: chatserver-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_R2DBC_URL: r2dbc:postgresql://postgres:5432/chatserver
+      SPRING_R2DBC_USERNAME: postgres
+      SPRING_R2DBC_PASSWORD: yourpassword
+      JWT_SECRET: YourSuperSecretKeyHere123456789012345678901234567890
+    ports:
+      - "8080:8080"
+    networks:
+      - chatserver-network
+
+volumes:
+  postgres_data:
+
+networks:
+  chatserver-network:
+    driver: bridge

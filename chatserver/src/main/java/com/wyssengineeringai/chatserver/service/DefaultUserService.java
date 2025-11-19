@@ -48,7 +48,7 @@ public class DefaultUserService implements UserService {
                 .onErrorMap(e -> new RuntimeException("Error creating user: " + e.getMessage(), e));
     }
 
-    public Mono<User> updateUser(Integer id, User user) {
+    public Mono<User> updateUser(Long id, User user) {
         if(id == null || id <= 0) {
             return Mono.error(new IllegalArgumentException("Invalid user ID"));
         }
@@ -73,7 +73,7 @@ public class DefaultUserService implements UserService {
                 .onErrorMap(e -> new RuntimeException("Error updating user: " + e.getMessage(), e));
     }
 
-    public Mono<User> deleteUser(Integer id) {
+    public Mono<User> deleteUser(Long id) {
         if(id == null || id <= 0) {
             return Mono.error(new IllegalArgumentException("Invalid user ID"));
         }
@@ -83,7 +83,7 @@ public class DefaultUserService implements UserService {
                 .onErrorMap(e -> new RuntimeException("Error deleting user: " + e.getMessage(), e));
     }
 
-    public Mono<User> getUserById(Integer id) {
+    public Mono<User> getUserById(Long id) {
         if(id == null || id <= 0) {
             return Mono.error( new IllegalArgumentException("Invalid user ID"));
         }

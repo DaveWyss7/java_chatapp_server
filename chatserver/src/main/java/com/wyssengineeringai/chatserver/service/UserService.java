@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface UserService {
     Mono<User> createUser(User user);
-    Mono<User> updateUser(Integer id, User user);
-    Mono<User> deleteUser(Integer id);
-    Mono<User> getUserById(Integer id);
+    Mono<User> updateUser(Long id, User user);
+    Mono<User> deleteUser(Long id);
+    Mono<User> getUserById(Long id);
     Mono<User> getUserByUsername(String username);
     Mono<User> userNameExists(String username);
     Mono<User> emailExists(String email);
