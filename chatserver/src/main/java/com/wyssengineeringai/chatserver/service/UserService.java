@@ -12,7 +12,7 @@ public interface UserService {
     Mono<User> deleteUser(Long id);
     Mono<User> getUserById(Long id);
     Mono<User> getUserByUsername(String username);
-    Mono<User> userNameExists(String username);
-    Mono<User> emailExists(String email);
-    Flux<List<User>> getAllUsers();
+    Mono<Boolean> usernameExists(String username);
+    Mono<Boolean> emailExists(String email);
+    Flux<User> getAllUsers();
 }

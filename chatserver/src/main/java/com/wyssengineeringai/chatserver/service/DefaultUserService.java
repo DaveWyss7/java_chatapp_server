@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @Service
 public class DefaultUserService implements UserService {
     private final UserRepository userRepository;
@@ -39,7 +37,7 @@ public class DefaultUserService implements UserService {
                         return Mono.error(new IllegalArgumentException("Email already exists"));
                     }
 
-                    // Passwort hashen
+                    // Password hashes
                     String hashedPassword = passwordEncoder.encode(user.getPasswordHash());
                     user.setPasswordHash(hashedPassword);
 
@@ -101,26 +99,24 @@ public class DefaultUserService implements UserService {
                 .onErrorMap(e -> new RuntimeException("Error retrieving user: " + e.getMessage(), e));
     }
 
-    public Mono<User> userNameExists(String username) {
+    public Mono<Boolean> usernameExists(String username) {
         if(username == null) {
             return Mono.error(new IllegalArgumentException("Username cannot be null"));
         }
-        return userRepository.findByUsername(username)
+        return userRepository.existsByUsername(username)
                 .onErrorMap(e -> new RuntimeException("Error checking username: " + e.getMessage(), e));
     }
 
-    public Mono<User> emailExists(String email) {
+    public Mono<Boolean> emailExists(String email) {
         if(email == null) {
             return Mono.error(new IllegalArgumentException("Email cannot be null"));
         }
-        return userRepository.findByEmail(email)
+        return userRepository.existsByEmail(email)
                 .onErrorMap(e -> new RuntimeException("Error checking email: " + e.getMessage(), e));
     }
 
-    public Flux<List<User>> getAllUsers() {
+    public Flux<User> getAllUsers() {
         return userRepository.findAll()
-                .collectList()
-                .flatMapMany(Mono::just)
                 .onErrorMap(e -> new RuntimeException("Error retrieving users: " + e.getMessage(), e));
     }
 

@@ -19,7 +19,7 @@ public class AuthResponseDto {
 
     private String username;
 
-    private Integer userId;
+    private Long userId;
 
     private Instant expiration;
 }
