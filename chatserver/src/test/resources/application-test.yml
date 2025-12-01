@@ -1,0 +1,8 @@
+spring:
+  sql:
+    init:
+      mode: never  # Disable schema initialization during tests
+  r2dbc:
+    url: r2dbc:h2:mem:///testdb  # Use in-memory H2 for tests
+    username: sa
+    password: 

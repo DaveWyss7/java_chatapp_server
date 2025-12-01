@@ -1,9 +1,11 @@
 package com.wyssengineeringai.chatserver.entity;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.relational.core.mapping.Column;
 
-import java.util.Collection;
-import java.util.List;
+import java.time.Instant;
 
 @Data
 @Table(name = "chat_rooms")
