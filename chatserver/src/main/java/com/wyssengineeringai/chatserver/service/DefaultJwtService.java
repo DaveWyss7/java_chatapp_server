@@ -1,3 +1,13 @@
+/**
+ * Default implementation of the JwtService interface for JWT token operations.
+ * 
+ * This service handles the creation, parsing, and validation of JSON Web Tokens (JWT)
+ * using HMAC-SHA encryption. It provides functionality to generate tokens for authenticated
+ * users and extract user information from existing tokens.
+ * 
+ * @see JwtService
+ * @see io.jsonwebtoken.Jwts
+ */
 package com.wyssengineeringai.chatserver.service;
 
 import io.jsonwebtoken.Claims;

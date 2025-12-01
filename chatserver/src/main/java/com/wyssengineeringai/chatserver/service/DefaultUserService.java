@@ -1,3 +1,31 @@
+/**
+ * Default implementation of the UserService interface for managing user operations.
+ * <p>
+ * This service provides CRUD operations for user management including:
+ * <ul>
+ *   <li>Creating new users with password hashing and duplicate validation</li>
+ *   <li>Updating existing user information</li>
+ *   <li>Deleting users by ID</li>
+ *   <li>Retrieving users by ID or username</li>
+ *   <li>Checking for existing usernames and emails</li>
+ *   <li>Retrieving all users</li>
+ * </ul>
+ * </p>
+ * <p>
+ * All operations are implemented using reactive programming with Project Reactor's
+ * Mono and Flux types for non-blocking I/O operations.
+ * </p>
+ * <p>
+ * Password security is handled through Spring Security's PasswordEncoder,
+ * ensuring all passwords are properly hashed before storage.
+ * </p>
+ * 
+ * @author WyssEngineeringAI
+ * @version 1.0
+ * @see UserService
+ * @see UserRepository
+ * @see PasswordEncoder
+ */
 package com.wyssengineeringai.chatserver.service;
 
 import com.wyssengineeringai.chatserver.entity.User;

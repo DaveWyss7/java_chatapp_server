@@ -12,10 +12,15 @@ import org.springframework.data.relational.core.mapping.Column;
 public class User {
     @Id
     private Long id;  // ← Integer → Long
+
     private String username;
+
     private String firstname;
+
     private String lastname;
+
     private String email;
+    
     @Column("password_hash")
     private String passwordHash;
 }
