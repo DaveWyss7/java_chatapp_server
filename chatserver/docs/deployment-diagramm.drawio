@@ -1,0 +1,246 @@
+<mxfile host="app.diagrams.net" modified="2025-12-09T00:00:00.000Z" agent="Draw.io" version="24.0.0">
+  <diagram name="Deployment Diagram" id="deployment-diagram">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="Chat Server - Docker Deployment Architektur" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=26;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="700" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Docker Compose Network Frame -->
+        <mxCell id="docker-compose-frame" value="Docker Compose Network: chatserver-network" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=16;fontStyle=1;startSize=40;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="1400" height="900" as="geometry" />
+        </mxCell>
+        
+        <!-- PostgreSQL Container -->
+        <mxCell id="postgres-container" value="Container: chatserver-db" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;startSize=40;" vertex="1" parent="docker-compose-frame">
+          <mxGeometry x="40" y="80" width="400" height="520" as="geometry" />
+        </mxCell>
+        
+        <!-- PostgreSQL Image -->
+        <mxCell id="postgres-image" value="&lt;b&gt;Docker Image&lt;/b&gt;&lt;br&gt;postgres:16-alpine" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="postgres-container">
+          <mxGeometry x="40" y="60" width="320" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- PostgreSQL Process -->
+        <mxCell id="postgres-process" value="&lt;b&gt;PostgreSQL 16 Server&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1" vertex="1" parent="postgres-container">
+          <mxGeometry x="40" y="140" width="320" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Database Schema -->
+        <mxCell id="postgres-schema" value="&lt;b&gt;Database: chatserver&lt;/b&gt;&lt;br&gt;&lt;br&gt;📋 Tables:&lt;br&gt;• users&lt;br&gt;• chat_rooms&lt;br&gt;• messages" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;spacingLeft=10;" vertex="1" parent="postgres-container">
+          <mxGeometry x="40" y="220" width="320" height="130" as="geometry" />
+        </mxCell>
+        
+        <!-- PostgreSQL Environment Variables -->
+        <mxCell id="postgres-env" value="&lt;b&gt;Environment Variables:&lt;/b&gt;&lt;br&gt;• POSTGRES_DB=chatserver&lt;br&gt;• POSTGRES_USER=postgres&lt;br&gt;• POSTGRES_PASSWORD=yourpassword" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;spacingLeft=10;" vertex="1" parent="postgres-container">
+          <mxGeometry x="40" y="370" width="320" height="90" as="geometry" />
+        </mxCell>
+        
+        <!-- PostgreSQL Port Info -->
+        <mxCell id="postgres-port" value="🔌 Port Mapping:&lt;br&gt;Host 5433 → Container 5432" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=10;fontStyle=1" vertex="1" parent="postgres-container">
+          <mxGeometry x="40" y="475" width="320" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Application Container -->
+        <mxCell id="app-container" value="Container: chatserver-app" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;startSize=40;" vertex="1" parent="docker-compose-frame">
+          <mxGeometry x="520" y="80" width="820" height="520" as="geometry" />
+        </mxCell>
+        
+        <!-- Build Stage Info -->
+        <mxCell id="build-stage" value="&lt;b&gt;🏗️ Build Stage (Multi-stage Dockerfile)&lt;/b&gt;&lt;br&gt;Base: eclipse-temurin:21-jdk-alpine" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="app-container">
+          <mxGeometry x="40" y="60" width="360" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Runtime Stage Info -->
+        <mxCell id="runtime-stage" value="&lt;b&gt;🚀 Runtime Stage&lt;/b&gt;&lt;br&gt;Base: eclipse-temurin:21-jre-alpine" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="app-container">
+          <mxGeometry x="420" y="60" width="360" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Spring Boot Application -->
+        <mxCell id="spring-boot" value="&lt;b&gt;Spring Boot Application&lt;/b&gt;&lt;br&gt;Version: 3.5.6&lt;br&gt;Java: 21&lt;br&gt;Framework: WebFlux (Reactive)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1" vertex="1" parent="app-container">
+          <mxGeometry x="40" y="150" width="740" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Application Components -->
+        <mxCell id="app-components-frame" value="Application Components" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;startSize=30;" vertex="1" parent="app-container">
+          <mxGeometry x="40" y="250" width="740" height="160" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="controllers" value="&lt;b&gt;Controllers&lt;/b&gt;&lt;br&gt;REST API Endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="app-components-frame">
+          <mxGeometry x="20" y="50" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="services" value="&lt;b&gt;Services&lt;/b&gt;&lt;br&gt;Business Logic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="app-components-frame">
+          <mxGeometry x="180" y="50" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="repositories" value="&lt;b&gt;Repositories&lt;/b&gt;&lt;br&gt;R2DBC Data Access" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="app-components-frame">
+          <mxGeometry x="340" y="50" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="security" value="&lt;b&gt;Security&lt;/b&gt;&lt;br&gt;JWT + Spring Security" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="app-components-frame">
+          <mxGeometry x="500" y="50" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Application Port Info -->
+        <mxCell id="app-port" value="🔌 Port Mapping:&lt;br&gt;Host 8080 → Container 8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=10;fontStyle=1" vertex="1" parent="app-container">
+          <mxGeometry x="40" y="475" width="740" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Environment Variables for App -->
+        <mxCell id="app-env" value="&lt;b&gt;Environment Variables:&lt;/b&gt;&lt;br&gt;• SPRING_R2DBC_URL=r2dbc:postgresql://postgres:5432/chatserver&lt;br&gt;• SPRING_R2DBC_USERNAME=postgres&lt;br&gt;• SPRING_R2DBC_PASSWORD=yourpassword&lt;br&gt;• JWT_SECRET=your-secret-key&lt;br&gt;• JWT_EXPIRATION=86400000" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;spacingLeft=10;" vertex="1" parent="app-container">
+          <mxGeometry x="40" y="420" width="740" height="45" as="geometry" />
+        </mxCell>
+        
+        <!-- Docker Volume -->
+        <mxCell id="volume" value="&lt;b&gt;📦 Docker Volume&lt;/b&gt;&lt;br&gt;&lt;br&gt;Name: postgres_data&lt;br&gt;Mount: /var/lib/postgresql/data&lt;br&gt;&lt;br&gt;💾 Persistent Storage for Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" vertex="1" parent="docker-compose-frame">
+          <mxGeometry x="40" y="640" width="400" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Health Check -->
+        <mxCell id="healthcheck" value="&lt;b&gt;🏥 Health Check&lt;/b&gt;&lt;br&gt;&lt;br&gt;Test: pg_isready -U postgres&lt;br&gt;Interval: 5s&lt;br&gt;Timeout: 3s&lt;br&gt;Retries: 5" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;" vertex="1" parent="docker-compose-frame">
+          <mxGeometry x="40" y="780" width="400" height="90" as="geometry" />
+        </mxCell>
+        
+        <!-- Service Dependencies -->
+        <mxCell id="dependencies" value="&lt;b&gt;🔗 Service Dependencies&lt;/b&gt;&lt;br&gt;&lt;br&gt;chatserver-app depends_on:&lt;br&gt;  postgres:&lt;br&gt;    condition: service_healthy&lt;br&gt;&lt;br&gt;⏳ App startet erst wenn DB healthy ist" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;" vertex="1" parent="docker-compose-frame">
+          <mxGeometry x="520" y="640" width="820" height="110" as="geometry" />
+        </mxCell>
+        
+        <!-- Docker Compose File Info -->
+        <mxCell id="docker-compose-info" value="&lt;b&gt;📄 docker-compose.yml&lt;/b&gt;&lt;br&gt;&lt;br&gt;Version: 3.8&lt;br&gt;Services: 2 (postgres, app)&lt;br&gt;Networks: 1 (chatserver-network)&lt;br&gt;Volumes: 1 (postgres_data)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;" vertex="1" parent="docker-compose-frame">
+          <mxGeometry x="520" y="770" width="820" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Client Connection (outside docker-compose) -->
+        <mxCell id="client" value="&lt;b&gt;🌐 Client Application&lt;/b&gt;&lt;br&gt;(Browser / Mobile / Postman)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="1060" width="300" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Database Connection Arrow -->
+        <mxCell id="conn-app-db" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;strokeWidth=3;strokeColor=#9673a6;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="postgres-container" target="app-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="700" y="500" as="sourcePoint" />
+            <mxPoint x="750" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-app-db-label" value="&lt;b&gt;R2DBC Connection&lt;/b&gt;&lt;br&gt;r2dbc:postgresql://postgres:5432/chatserver&lt;br&gt;(Internal Network)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontStyle=0;fillColor=#f5f5f5;strokeColor=none;" vertex="1" connectable="0" parent="conn-app-db">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint y="-25" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Client to App Connection -->
+        <mxCell id="conn-client-app" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;strokeWidth=3;strokeColor=#82b366;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="client">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="1100" as="sourcePoint" />
+            <mxPoint x="600" y="620" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="450" y="1100" />
+              <mxPoint x="450" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-client-app-label" value="&lt;b&gt;HTTP/HTTPS&lt;/b&gt;&lt;br&gt;http://localhost:8080&lt;br&gt;REST API Calls" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontStyle=0;fillColor=#f5f5f5;strokeColor=none;" vertex="1" connectable="0" parent="conn-client-app">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="20" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Volume Connection to PostgreSQL -->
+        <mxCell id="conn-volume-postgres" value="" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#d6b656;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="volume" target="postgres-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="700" y="900" as="sourcePoint" />
+            <mxPoint x="750" y="850" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-volume-postgres-label" value="Persistent Data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fillColor=#fff2cc;strokeColor=none;" vertex="1" connectable="0" parent="conn-volume-postgres">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint x="15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend-frame" value="&lt;b&gt;Legende&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=14;fontStyle=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="460" y="1060" width="1020" height="260" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-container" value="Container" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="legend-frame">
+          <mxGeometry x="20" y="50" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-process" value="Process/Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="legend-frame">
+          <mxGeometry x="160" y="50" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-data" value="Data/Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="legend-frame">
+          <mxGeometry x="300" y="50" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-config" value="Configuration" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="legend-frame">
+          <mxGeometry x="440" y="50" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-network" value="Network" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="legend-frame">
+          <mxGeometry x="580" y="50" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-conn1" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="legend-frame">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="20" y="130" as="sourcePoint" />
+            <mxPoint x="140" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-conn1-label" value="Database Connection" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="legend-conn1">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="legend-conn2" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#82b366;" edge="1" parent="legend-frame">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160" y="130" as="sourcePoint" />
+            <mxPoint x="280" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-conn2-label" value="HTTP Connection" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="legend-conn2">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="legend-conn3" value="" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#d6b656;dashed=1;" edge="1" parent="legend-frame">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="130" as="sourcePoint" />
+            <mxPoint x="420" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-conn3-label" value="Volume Mount" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="legend-conn3">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry">
+            <mxPoint y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Commands Info -->
+        <mxCell id="commands" value="&lt;b&gt;🔧 Docker Commands:&lt;/b&gt;&lt;br&gt;&lt;br&gt;🚀 Start: &lt;font face=&quot;Courier New&quot;&gt;docker-compose up -d&lt;/font&gt;&lt;br&gt;🛑 Stop: &lt;font face=&quot;Courier New&quot;&gt;docker-compose down&lt;/font&gt;&lt;br&gt;📊 Status: &lt;font face=&quot;Courier New&quot;&gt;docker-compose ps&lt;/font&gt;&lt;br&gt;📝 Logs: &lt;font face=&quot;Courier New&quot;&gt;docker-compose logs -f app&lt;/font&gt;&lt;br&gt;🔄 Rebuild: &lt;font face=&quot;Courier New&quot;&gt;docker-compose up --build&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;spacingLeft=10;" vertex="1" parent="legend-frame">
+          <mxGeometry x="20" y="170" width="680" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Port Info -->
+        <mxCell id="port-info" value="&lt;b&gt;🔌 Port Mappings:&lt;/b&gt;&lt;br&gt;&lt;br&gt;PostgreSQL: &lt;font face=&quot;Courier New&quot;&gt;localhost:5433 → container:5432&lt;/font&gt;&lt;br&gt;Spring Boot: &lt;font face=&quot;Courier New&quot;&gt;localhost:8080 → container:8080&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;spacingLeft=10;" vertex="1" parent="legend-frame">
+          <mxGeometry x="720" y="50" width="280" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Network Info -->
+        <mxCell id="network-info" value="&lt;b&gt;🌐 Network:&lt;/b&gt;&lt;br&gt;&lt;br&gt;Type: Bridge Network&lt;br&gt;Name: chatserver-network&lt;br&gt;Internal DNS: Service names resolvable&lt;br&gt;(postgres, app)" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;spacingLeft=10;" vertex="1" parent="legend-frame">
+          <mxGeometry x="720" y="150" width="280" height="100" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
